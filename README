@@ -1,0 +1,61 @@
+Graphics
+Final Project
+Teo Price-Broncucia
+
+This code builds heavily on work by Jos Stam in his 2003 paper "Real-Time Fluid
+Dynamics for Games"
+
+It also includes and relies on code provided as part of the CS 5229 by Willem
+Schreuder.
+
+To run call "make" from the terminal and then run "smoke_display"
+
+Controls:
+
+Rotate: left/right arrows
+
+Zoom: -/+
+
+Change view elevation: up/down arrows
+
+Turn source on/off: s
+
+The goal of this simulation is to create a realistic smoke simulation.
+This proved much more difficult than originally expected. I built a 2d version
+that worked very well and I thought it would be a natural extension to 3d.
+The system is very sensitive to the constants used and what gives natural looking
+effects depends on all other constants so it is difficult to key in on the
+correct values. For example, changing the number of cells, N, also requires
+changing values for dt, viscosity, and diffusion. Also, how close to boundaries
+one is.
+
+In the hope of increasing the number of cells computed and giving a more natural
+effect I wanted to implement a CUDA based graphics. I spent quite a lot of my
+project time on this and did eventually get a CUDA version set up and running,
+however it did not give an improved effect and didn't show substantially improved
+performance. I suspect this is due to the way I had set up the iterative solver
+and then tried to bolt on CUDA. I still don't entirely understand the memory
+sharing within CUDA cores. I think the amount of synchronization between CPU and
+GPU I needed was basically killing performance improvements. Already I had to
+rewrite large amounts of code to let it work within CUDA's restrictions and to
+make the iterative solvers work correctly would means basically totally
+rewriting the program.
+
+I offer this piece of advice to future students: IF YOU SUSPECT YOU WANT TO USE
+A CUDA LIKE SYSTEM YOU MUST USE IT FROM THE BEGINNING. OTHERWISE YOU WILL JUST
+HAVE TO START OVER! 
+
+I have included the CUDA program in a sub folder because it represents a
+significant amount of work, and not a small amount of learning. I hope to use it
+again in the future now that I have a better understanding of its requirements
+and restrictions. However, the version of the program in the main folder is
+sequential and CPU based.
+
+I think I succeeded in making a system that creates a recognizable smoke effect.
+It simulates 60*60*60 = aprox 215,000 cells. By mirroring the vertices I was
+able to mimic a larger system. I did not get the ability to have the user
+manipulate the system via mouse location or similar like I had originally hoped.
+
+I still am not sure exactly why the 3d system is so much tougher than the 2d
+system. I would be interested in looking at other implementations of fluid
+simulators to see how others have dealt with this problem.
